@@ -8,9 +8,10 @@ const { Category } = require('../models/CategoryModel');
 const { Sabor } = require('../models/SaborModel');
 const { Ingrediente } = require('../models/IngredienteModel');
 const { Tamaño } = require('../models/TamañoModel');
+const { Pago } = require('../models/PagoModel');
 
 const relationsProduct = [
-  { model: Category, attributes: ['descripcion'] }, 
+  { model: Category, attributes: ['descripcion'] },
   { model: Sabor, attributes: ['sabor'] },
   { model: Ingrediente, attributes: ['nombre'] },
   { model: Tamaño, attributes: ['tipo'] },
@@ -20,14 +21,11 @@ const relationsDetalleCompra = [
   { model: Product, attributes: ['nombre'], include: relationsProduct }
 ]
 
-const relations = [{
-  model: DetalleCompra,
-  attributes: ['id', 'cantidad', 'total', 'fechaentrega', 'horaentrega'],
-  include: relationsDetalleCompra
-}, {
-  model: User,
-  attributes: ['nombres', 'apellido_p', 'apellido_m', 'correo'] // solo traer estos campos de Post
-}]
+const relations = [
+  { model: DetalleCompra, attributes: ['id', 'cantidad', 'total', 'fechaentrega', 'horaentrega'], include: relationsDetalleCompra },
+  { model: User, attributes: ['nombres', 'apellido_p', 'apellido_m', 'correo'] },
+  { model: Pago }
+]
 
 const get = (request, response) => {
   const errors = validationResult(request);

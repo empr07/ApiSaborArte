@@ -17,6 +17,5 @@ const Pago = connection.define('pagos', {
     estado: Sequelize.STRING,
 })
 
-Pago.belongsTo(ModelCompra.Compra, {foreignKey:'idcompra'})
 
 module.exports = { Pago };
