@@ -25,6 +25,9 @@ const requiresRegister = [
     check('contraseña').notEmpty().withMessage('El campo contraseña es obligatorio').
         isString().withMessage('El campo contraseña debe ser texto'),
 
+    check('esadministrador').notEmpty().withMessage('El campo esadministrador es obligatorio').
+        isBoolean().withMessage('El campo esadministrador debe ser booleano'),
+
     check('activo').notEmpty().withMessage('El campo activo es obligatorio').
         isBoolean().withMessage('El campo activo debe ser booleano'),
 ]

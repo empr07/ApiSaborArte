@@ -36,7 +36,6 @@ const registerAdmin = (request, response) => {
     if (!errors.isEmpty()) {
         return response.status(422).json({ errors: errors.array() });
     }
-    request.body.esadministrador = true
     User.create(request.body).then(
         newEntitie => {
             response.status(201).json(newEntitie)
