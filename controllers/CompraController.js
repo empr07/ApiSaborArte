@@ -73,6 +73,8 @@ const create = (request, response) => {
   if (!errors.isEmpty()) {
     return response.status(422).json({ errors: errors.array() });
   }
+  const payload = jwt.verify(token, 'lkjpqjcnporsthmlpqsc')
+  request.body.idusuario = payload.data.id
   Compra.create(request.body).then(
     newEntitie => {
       response.status(201).json(newEntitie)

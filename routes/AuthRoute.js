@@ -64,7 +64,9 @@ api.put('/auth/usuarios/update', authenticate.verifyTokenUser, requiresOptional,
 api.put('/auth/usuarios/updateadmin', authenticate.verifyTokenAdmin, requiresOptionalAdmin, AuthController.updateAdmin)
 api.get('/auth/usuarios', authenticate.verifyTokenAdmin, requiresOptional, AuthController.getUsers)
 api.get('/auth/usuarios/:id', authenticate.verifyTokenAdmin, AuthController.getUserById)
+api.get('/auth/datosusuario', AuthController.getUserByToken)
 api.delete('/auth/usuarios/:id', authenticate.verifyTokenAdmin, AuthController.destroyUser)
+
 
 module.exports = api;
 

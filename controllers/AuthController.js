@@ -155,6 +155,24 @@ const destroyUser = (request, response) => {
         });
 }
 
+const getUserByToken = (request, response) => {
+    const token = request.headers.authorization.split(' ')[1]
+    try {
+        const payload = jwt.verify(token, 'lkjpqjcnporsthmlpqsc')
+
+        if (payload) {
+            response.json(payload.data)
+        }
+        else {
+            response.status(204).send('Any user logged with this token')
+        }
+    }
+    catch(e) {
+        response.status(404).send('Any user logged with this token')
+
+    }
+
+}
 
 module.exports = {
     login,
@@ -165,4 +183,5 @@ module.exports = {
     getUsers,
     getUserById,
     destroyUser,
+    getUserByToken
 };
