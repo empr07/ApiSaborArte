@@ -87,6 +87,17 @@ const create = (request, response) => {
           fechaentrega: '1990-01-01',
           horaentrega: '12:00',
           total: detail.cantidad * detail.precio
+        }).then(e => {
+          Product.find(detail.id).then(p => {
+            Product.update(
+              { stock: p.stock - detail.cantidad }
+              , {
+                where: {
+                  id: detail.id
+                }
+              })
+          })
+
         })
       })
       const payment = request.body.pago
