@@ -10,6 +10,9 @@ const { Ingrediente } = require('../models/IngredienteModel');
 const { Tamaño } = require('../models/TamañoModel');
 const { Pago } = require('../models/PagoModel');
 
+const jwt = require('jsonwebtoken');
+
+
 const relationsProduct = [
   { model: Category, attributes: ['descripcion'] },
   { model: Sabor, attributes: ['sabor'] },
@@ -73,6 +76,7 @@ const create = (request, response) => {
   if (!errors.isEmpty()) {
     return response.status(422).json({ errors: errors.array() });
   }
+  const token = request.headers.authorization.split(' ')[1]
   const payload = jwt.verify(token, 'lkjpqjcnporsthmlpqsc')
   request.body.idusuario = payload.data.id
   Compra.create(request.body).then(
