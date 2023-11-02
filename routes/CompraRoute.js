@@ -11,6 +11,12 @@ const requiresCompraCreate = [
     check('total').isNumeric().withMessage('El campo total debe ser numerico'),
     check('fechacompra').notEmpty().withMessage('El campo fechacompra es obligatorio'),
     check('fechacompra').isDate().withMessage('El campo fechacompra debe ser una fecha valida'),
+    check('detalles').notEmpty().withMessage('El campo detalles es obligatorio'),
+    check('detalles').isArray().withMessage('El campo detalles debe ser un arreglo'),
+    check('pago').notEmpty().withMessage('El campo pago es obligatorio'),
+    check('pago').isObject().withMessage('El campo pago debe ser un objeto'),
+    
+
 ]
 
 const requiresCompraOptional = [

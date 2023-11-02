@@ -41,9 +41,9 @@ var api = express.Router();
 
 api.get('/pagos', requiresPagoOptional, PagoController.get);
 api.get('/pagos/:id', PagoController.getById)
-api.post('/pagos', authenticate.verifyTokenAdmin, requiresPagoCreate, PagoController.create)
-api.put('/pagos/:id', authenticate.verifyTokenAdmin, requiresPagoOptional, PagoController.update)
-api.delete('/pagos/:id', authenticate.verifyTokenAdmin, PagoController.destroy)
+// api.post('/pagos', authenticate.verifyTokenAdmin, requiresPagoCreate, PagoController.create)
+// api.put('/pagos/:id', authenticate.verifyTokenAdmin, requiresPagoOptional, PagoController.update)
+// api.delete('/pagos/:id', authenticate.verifyTokenAdmin, PagoController.destroy)
 module.exports = api;
 
 

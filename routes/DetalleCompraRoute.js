@@ -36,9 +36,9 @@ var api = express.Router();
 
 api.get('/detallecompras', authenticate.verifyTokenAdmin, requiresDetalleCompraOptional, DetalleCompraController.get);
 api.get('/detallecompras/:id', authenticate.verifyTokenAdmin, DetalleCompraController.getById)
-api.post('/detallecompras', authenticate.verifyTokenAdmin, requiresDetalleCompraCreate, DetalleCompraController.create)
-api.put('/detallecompras/:id', authenticate.verifyTokenAdmin, requiresDetalleCompraOptional, DetalleCompraController.update)
-api.delete('/detallecompras/:id', authenticate.verifyTokenAdmin, DetalleCompraController.destroy)
+// api.post('/detallecompras', authenticate.verifyTokenAdmin, requiresDetalleCompraCreate, DetalleCompraController.create)
+// api.put('/detallecompras/:id', authenticate.verifyTokenAdmin, requiresDetalleCompraOptional, DetalleCompraController.update)
+// api.delete('/detallecompras/:id', authenticate.verifyTokenAdmin, DetalleCompraController.destroy)
 module.exports = api;
 
 

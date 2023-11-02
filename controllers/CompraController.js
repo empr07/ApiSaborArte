@@ -77,6 +77,34 @@ const create = (request, response) => {
   request.body.idusuario = payload.data.id
   Compra.create(request.body).then(
     newEntitie => {
+
+
+      request.body.detalles.forEach(detail => {
+        DetalleCompra.create({
+          idcompra: newEntitie.id,
+          idproducto: detail.id,
+          cantidad: detail.cantidad,
+          fechaentrega: '1990-01-01',
+          horaentrega: '12:00',
+          total: detail.cantidad * detail.precio
+        })
+      })
+      const payment = request.body.pago
+      Pago.create({
+        idcompra: newEntitie.id,
+        metodo: payment.metodo,
+        totalpagado: payment.totalpagado,
+        direccion: payment.direccion,
+        pais: payment.pais,
+        nombres: payment.nombres,
+        apellidos: payment.apellidos,
+        telefono: payment.telefono,
+        cp: payment.cp,
+        calles: payment.calles,
+        ciudad: payment.ciudad,
+        estado: payment.estado,
+      })
+
       response.status(201).json(newEntitie)
     }
   )
