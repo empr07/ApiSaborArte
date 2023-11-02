@@ -4,7 +4,6 @@ const { body } = require('express-validator/check');
 var authenticate = require('../middlewares/jwt');
 
 const requiresCompraCreate = [
-    check('idusuario').isNumeric().withMessage('El campo idusuario debe ser numerico'),
     check('totalproducto').notEmpty().withMessage('El campo totalproducto es obligatorio'),
     check('totalproducto').isNumeric().withMessage('El campo totalproducto debe ser numerico'),
     check('total').notEmpty().withMessage('El campo total es obligatorio'),
