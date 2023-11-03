@@ -32,6 +32,27 @@ const requiresRegister = [
         isBoolean().withMessage('El campo activo debe ser booleano'),
 ]
 
+const requiresRegisterNoAdmin = [
+    check('nombres').notEmpty().withMessage('El campo nombre es obligatorio').
+        isString().withMessage('El campo nombres debe ser texto'),
+
+    check('apellido_p').notEmpty().withMessage('El campo apellido_p es obligatorio').
+        isString().withMessage('El campo apellido_p debe ser texto'),
+
+    check('apellido_m').notEmpty().withMessage('El campo apellido_m es obligatorio').
+        isString().withMessage('El campo apellido_m debe ser texto'),
+
+    check('correo').notEmpty().withMessage('El campo correo es obligatorio').
+        isEmail().withMessage('El campo correo debe ser email'),
+
+    check('contraseña').notEmpty().withMessage('El campo contraseña es obligatorio').
+        isString().withMessage('El campo contraseña debe ser texto'),
+
+
+    check('activo').notEmpty().withMessage('El campo activo es obligatorio').
+        isBoolean().withMessage('El campo activo debe ser booleano'),
+]
+
 
 const requiresOptional = [
     body('nombres', 'nombres debe ser texto').optional().notEmpty().isString(),
@@ -58,7 +79,7 @@ var api = express.Router();
 
 
 api.post('/auth/login', requiresLogin, AuthController.login)
-api.post('/auth/registro', requiresRegister, AuthController.registerNoAdmin)
+api.post('/auth/registro', requiresRegisterNoAdmin, AuthController.registerNoAdmin)
 api.post('/auth/registroadmin', authenticate.verifyTokenAdmin, requiresRegister, AuthController.registerAdmin)
 api.put('/auth/usuarios/update', authenticate.verifyTokenUser, requiresOptional, AuthController.updateNoAdmin)
 api.put('/auth/usuarios/updateadmin', authenticate.verifyTokenAdmin, requiresOptionalAdmin, AuthController.updateAdmin)
