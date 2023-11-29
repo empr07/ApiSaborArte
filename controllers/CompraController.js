@@ -198,9 +198,14 @@ const createByUser = (request, response) => {
   }
   request.body.idusuario = request.query.idusuario
   Compra.create(request.body).then(
-    newEntitie => {
-      response.status(201).json(newEntitie)
-    }
+    Pago.create(request.body.pago).then(newPago => {
+      newEntitie => {
+        response.status(201).json(newEntitie)
+      }
+    })
+      .catch(err => {
+        response.status(500).send(err);
+      })
   )
     .catch(err => {
       response.status(500).send(err);
