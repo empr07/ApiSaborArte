@@ -22,7 +22,10 @@ const get = (request, response) => {
   const filters = request.query
   Product.findAll({
     where: filters,
-    include: relations
+    include: relations,
+    order: [
+      ['id', 'DESC']
+    ]
   })
     .then(entities => {
       if (entities.length) {
@@ -75,7 +78,7 @@ const getBestSellers = async (req, res) => {
     `;
 
     const productosMasVendidos = await connection.query(query, {
-      replacements: {  }, // Reemplaza :userId con el valor real
+      replacements: {}, // Reemplaza :userId con el valor real
       type: connection.QueryTypes.SELECT,
     });
 

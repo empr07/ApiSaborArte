@@ -36,7 +36,10 @@ const get = (request, response) => {
   const filters = request.query
   Compra.findAll({
     where: filters,
-    include: relations
+    include: relations,
+    order: [
+      ['id', 'DESC']
+    ]
   })
     .then(entities => {
       if (entities.length) {

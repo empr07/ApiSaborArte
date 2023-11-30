@@ -112,7 +112,10 @@ const getUsers = (request, response) => {
     }
     const filters = request.query
     User.findAll({
-        where: filters
+        where: filters,
+        order: [
+            ['id', 'DESC']
+        ]
     })
         .then(entities => {
             response.json(entities);
@@ -167,7 +170,7 @@ const getUserByToken = (request, response) => {
             response.status(204).send('Any user logged with this token')
         }
     }
-    catch(e) {
+    catch (e) {
         response.status(404).send('Any user logged with this token')
 
     }
