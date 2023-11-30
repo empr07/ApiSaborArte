@@ -34,13 +34,8 @@ function verifyTokenUser(req, res, next) {
     if (err) {
       return res.status(403).send({ message: 'Sin autorización' });
     }
-    if (decoded.data.id) {
-      req.query.idusuario = decoded.data.id
-      next();
-    }
-    else {
-      return res.status(403).send({ message: 'Sin autorización' });
-    }
+    req.query.idusuario = decoded.data.id
+    next();
 
   });
 }
