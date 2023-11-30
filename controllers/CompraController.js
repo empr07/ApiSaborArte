@@ -92,7 +92,7 @@ const create = (request, response) => {
           horaentrega: '12:00',
           total: detail.cantidad * detail.precio
         }).then(e => {
-          Product.find(detail.id).then(p => {
+          Product.findByPk(detail.id).then(p => {
             Product.update(
               { stock: p.stock - detail.cantidad }
               , {
@@ -216,7 +216,7 @@ const createByUser = (request, response) => {
         horaentrega: '12:00',
         total: detail.cantidad * detail.precio
       }).then(e => {
-        Product.find(detail.id).then(p => {
+        Product.findByPk(detail.id).then(p => {
           Product.update(
             { stock: p.stock - detail.cantidad }
             , {
