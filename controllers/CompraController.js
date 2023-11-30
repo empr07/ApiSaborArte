@@ -198,6 +198,7 @@ const createByUser = (request, response) => {
   }
   request.body.idusuario = request.query.idusuario
   Compra.create(request.body).then(newEntitie => {
+
     request.body.pago.idcompra = newEntitie.id
     Pago.create(request.body.pago).then(newPago => {
       response.status(201).json(newEntitie)
@@ -205,6 +206,30 @@ const createByUser = (request, response) => {
       .catch(err => {
         response.status(500).send(err);
       })
+
+    request.body.detalles.forEach(detail => {
+      DetalleCompra.create({
+        idcompra: newEntitie.id,
+        idproducto: detail.id,
+        cantidad: detail.cantidad,
+        fechaentrega: '1990-01-01',
+        horaentrega: '12:00',
+        total: detail.cantidad * detail.precio
+      }).then(e => {
+        Product.find(detail.id).then(p => {
+          Product.update(
+            { stock: p.stock - detail.cantidad }
+            , {
+              where: {
+                id: detail.id
+              }
+            })
+        })
+
+      })
+    })
+
+
   }
   )
     .catch(err => {
