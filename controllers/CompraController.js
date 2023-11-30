@@ -6,7 +6,6 @@ const { User } = require('../models/UserModel');
 const { Product } = require('../models/ProductModel');
 const { Category } = require('../models/CategoryModel');
 const { Sabor } = require('../models/SaborModel');
-const { Ingrediente } = require('../models/IngredienteModel');
 const { Tamaño } = require('../models/TamañoModel');
 const { Pago } = require('../models/PagoModel');
 
@@ -16,7 +15,6 @@ const jwt = require('jsonwebtoken');
 const relationsProduct = [
   { model: Category, attributes: ['descripcion'] },
   { model: Sabor, attributes: ['sabor'] },
-  { model: Ingrediente, attributes: ['nombre'] },
   { model: Tamaño, attributes: ['tipo'] },
 ]
 
