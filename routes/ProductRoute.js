@@ -4,8 +4,7 @@ const { body } = require('express-validator/check');
 var authenticate = require('../middlewares/jwt');
 
 const requiresProductCreate = [
-    check('idingrediente').notEmpty().withMessage('El campo idingrediente es obligatorio'),
-    check('idingrediente').isNumeric().withMessage('El campo idingrediente debe ser numerico'),
+
     check('idcategoria').notEmpty().withMessage('El campo idcategoria es obligatorio'),
     check('idcategoria').isNumeric().withMessage('El campo idcategoria debe ser numerico'),
     check('idsabor').notEmpty().withMessage('El campo idsabor es obligatorio'),
@@ -26,7 +25,6 @@ const requiresProductCreate = [
 ]
 
 const requiresProductOptional = [
-    body('idingrediente', 'idingrediente debe ser numerico').optional().isInt(),
     body('idcategoria', 'idcategoria debe ser numerico').optional().isInt(),
     body('idsabor', 'idsabor debe ser numerico').optional().isInt(),
     body('idtamaño', 'idtamaño debe ser numerico').optional().isInt(),

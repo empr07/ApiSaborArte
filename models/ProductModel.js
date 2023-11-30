@@ -1,12 +1,10 @@
 const Sequelize = require('sequelize')
 const { connection } = require("../config.db");
-const ModelIngrediente = require("./IngredienteModel")
 const ModelCategoria = require("./CategoryModel")
 const ModelColor = require("./SaborModel")
 const ModelTamaño = require("./TamañoModel")
 
 const Product = connection.define('producto', {
-  idingrediente: Sequelize.NUMBER,
   idcategoria: Sequelize.NUMBER,
   idsabor: Sequelize.NUMBER,
   idtamaño: Sequelize.NUMBER,
@@ -27,7 +25,6 @@ const Product = connection.define('producto', {
 // ProductoTamaño.belongsTo(ModelTamaño.Tamaño, { foreignKey: 'idtamaño' })
 // ProductoTamaño.belongsTo(Product, { foreignKey: 'id_producto' })
 
-Product.belongsTo(ModelIngrediente.Ingrediente, { foreignKey: 'idingrediente' })
 Product.belongsTo(ModelCategoria.Category, { foreignKey: 'idcategoria' })
 Product.belongsTo(ModelColor.Sabor, { foreignKey: 'idsabor' })
 Product.belongsTo(ModelTamaño.Tamaño, { foreignKey: 'idtamaño' })

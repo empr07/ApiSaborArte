@@ -1,7 +1,6 @@
 const { Product, ProductoTamaño } = require('../models/ProductModel')
 const { Category } = require('../models/CategoryModel');
 const { Sabor } = require('../models/SaborModel');
-const { Ingrediente } = require('../models/IngredienteModel');
 const { Tamaño } = require('../models/TamañoModel');
 
 const { validationResult } = require('express-validator');
@@ -9,7 +8,6 @@ const { validationResult } = require('express-validator');
 const relations = [
   { model: Category, attributes: ['descripcion'] },
   { model: Sabor, attributes: ['sabor'] },
-  { model: Ingrediente, attributes: ['nombre'] },
   { model: Tamaño, attributes: ['tipo'] }
 ]
 
