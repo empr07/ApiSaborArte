@@ -42,6 +42,7 @@ var api = express.Router();
 
 api.get('/productos', requiresProductOptional, ProductController.get);
 api.get('/productos/:id', ProductController.getById)
+api.get('/productosmasvendidos/', ProductController.getBestSellers)
 api.post('/productos', authenticate.verifyTokenAdmin, requiresProductCreate, ProductController.create)
 api.put('/productos/:id', authenticate.verifyTokenAdmin, requiresProductOptional, ProductController.update)
 api.delete('/productos/:id', authenticate.verifyTokenAdmin, ProductController.destroy)

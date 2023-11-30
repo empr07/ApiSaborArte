@@ -2,8 +2,11 @@ const { Product, ProductoTamaño } = require('../models/ProductModel')
 const { Category } = require('../models/CategoryModel');
 const { Sabor } = require('../models/SaborModel');
 const { Tamaño } = require('../models/TamañoModel');
+const { connection } = require("../config.db");
+
 
 const { validationResult } = require('express-validator');
+const { DetalleCompra } = require('../models/DetalleCompraModel');
 
 const relations = [
   { model: Category, attributes: ['descripcion'] },
@@ -50,6 +53,37 @@ const getById = (request, response) => {
     .catch(err => {
       response.status(500).send('Error al consultar el dato');
     })
+}
+
+const getBestSellers = async (req, res) => {
+  try {
+    const query = `
+      SELECT
+        dc.idproducto,
+        p.nombre,
+        SUM(dc.cantidad) as totalVendido
+      FROM
+        detalle_compras dc
+        INNER JOIN compras c ON dc.idcompra = c.id
+        INNER JOIN productos p ON dc.idproducto = p.id
+      GROUP BY
+        dc.idproducto
+      ORDER BY
+        totalVendido DESC
+      LIMIT
+        5;
+    `;
+
+    const productosMasVendidos = await connection.query(query, {
+      replacements: {  }, // Reemplaza :userId con el valor real
+      type: connection.QueryTypes.SELECT,
+    });
+
+    res.json(productosMasVendidos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los productos más vendidos.' });
+  }
 }
 
 const create = (request, response) => {
@@ -109,6 +143,7 @@ const destroy = (request, response) => {
 module.exports = {
   get,
   getById,
+  getBestSellers,
   create,
   update,
   destroy

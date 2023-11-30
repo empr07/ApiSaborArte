@@ -1,6 +1,8 @@
 const { Category } = require('../models/CategoryModel')
 
 const { validationResult } = require('express-validator');
+const { connect } = require('../routes/ProductRoute');
+const { connection } = require('../config.db');
 
 const get = (request, response) => {
   const errors = validationResult(request);
@@ -15,7 +17,7 @@ const get = (request, response) => {
       response.json(entities);
     })
     .catch(err => {
-        console.log(err)
+      console.log(err)
       response.status(500).send('Error consultando los datos');
     })
 
@@ -35,6 +37,38 @@ const getById = (request, response) => {
     .catch(err => {
       response.status(500).send('Error al consultar el dato');
     })
+}
+
+const getBestCategories = async (req, res) => {
+  try {
+    const query = `
+      SELECT
+        p.idcategoria,
+        c.descripcion as nombreCategoria,
+        SUM(dc.cantidad) as totalVendido
+      FROM
+        detalle_compras dc
+        INNER JOIN compras co ON dc.idcompra = co.id
+        INNER JOIN productos p ON dc.idproducto = p.id
+        INNER JOIN categorias c ON p.idcategoria = c.id
+      GROUP BY
+        p.idcategoria
+      ORDER BY
+        totalVendido DESC
+      LIMIT
+        5;
+    `;
+
+    const categoriasMasVendidas = await connection.query(query, {
+      replacements: {  }, // Reemplaza :userId con el valor real
+      type: connection.QueryTypes.SELECT,
+    });
+
+    res.json(categoriasMasVendidas);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las categorías más vendidas.' });
+  }
 }
 
 const create = (request, response) => {
@@ -92,6 +126,7 @@ const destroy = (request, response) => {
 module.exports = {
   get,
   getById,
+  getBestCategories,
   create,
   update,
   destroy

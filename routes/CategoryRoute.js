@@ -22,6 +22,7 @@ var api = express.Router();
 
 api.get('/categorias', requiresCategoryOptional, CategoryController.get);
 api.get('/categorias/:id', CategoryController.getById)
+api.get('/categoriasmasvendidas/', CategoryController.getBestCategories)
 api.post('/categorias', authenticate.verifyTokenAdmin, requiresCategoryCreate, CategoryController.create)
 api.put('/categorias/:id', authenticate.verifyTokenAdmin, requiresCategoryOptional, CategoryController.update)
 api.delete('/categorias/:id', authenticate.verifyTokenAdmin, CategoryController.destroy)
