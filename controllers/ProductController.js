@@ -89,6 +89,37 @@ const getBestSellers = async (req, res) => {
   }
 }
 
+const getLeastSellers = async (req, res) => {
+  try {
+    const query = `
+      SELECT
+        dc.idproducto,
+        p.nombre,
+        SUM(dc.cantidad) as totalVendido
+      FROM
+        detalle_compras dc
+        INNER JOIN compras c ON dc.idcompra = c.id
+        INNER JOIN productos p ON dc.idproducto = p.id
+      GROUP BY
+        dc.idproducto
+      ORDER BY
+        totalVendido ASC
+      LIMIT
+        5;
+    `;
+
+    const productosMenosVendidos = await connection.query(query, {
+      replacements: {}, // Reemplaza :userId con el valor real si es necesario
+      type: connection.QueryTypes.SELECT,
+    });
+
+    res.json(productosMenosVendidos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los productos menos vendidos.' });
+  }
+}
+
 const create = (request, response) => {
   const errors = validationResult(request);
   if (!errors.isEmpty()) {
@@ -147,6 +178,7 @@ module.exports = {
   get,
   getById,
   getBestSellers,
+  getLeastSellers,
   create,
   update,
   destroy
