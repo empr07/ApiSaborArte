@@ -3,7 +3,7 @@ const { Category } = require('../models/CategoryModel');
 const { Sabor } = require('../models/SaborModel');
 const { Tamaño } = require('../models/TamañoModel');
 const { connection } = require("../config.db");
-
+const { Op } = require("sequelize");
 
 const { validationResult } = require('express-validator');
 const { DetalleCompra } = require('../models/DetalleCompraModel');
@@ -20,6 +20,11 @@ const get = (request, response) => {
     return response.status(422).json({ errors: errors.array() });
   }
   const filters = request.query
+
+  if (filters.nombre) {
+    filters.nombre = { [Op.like]: `%${filters.nombre ?? ''}%` }
+  }
+
   Product.findAll({
     where: filters,
     include: relations,
