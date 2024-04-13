@@ -13,12 +13,12 @@ const get = (request, response) => {
         order: [['id', 'DESC']]
     })
         .then(entities => {
-            const entitiesWithCorrectTimezone = entities.map(entity => {
-                const modifiedEntity = { ...entity.toJSON() };
-                modifiedEntity.createdAt = new Date(new Date(modifiedEntity.createdAt).getTime() - (6 * 60 * 60 * 1000)); // Restar 6 horas
-                return modifiedEntity;
-            });
-            response.json(entitiesWithCorrectTimezone);
+            // const entitiesWithCorrectTimezone = entities.map(entity => {
+            //     const modifiedEntity = { ...entity.toJSON() };
+            //     modifiedEntity.createdAt = new Date(new Date(modifiedEntity.createdAt).getTime() - (6 * 60 * 60 * 1000)); // Restar 6 horas
+            //     return modifiedEntity;
+            // });
+            response.json(entities);
         })
         .catch(err => {
             console.log(err)
