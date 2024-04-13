@@ -13,6 +13,7 @@ function verifyTokenAdmin(req, res, next) {
       return res.status(403).send({ message: 'Sin autorización' });
     }
     if (decoded.data.esadministrador) {
+      req.user = `(Id: ${decoded.data.id}) ${decoded.data.nombres} ${decoded.data.apellido_p} ${decoded.data.apellido_m}`
       next();
     }
     else {

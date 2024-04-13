@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/UserModel')
 const { validationResult } = require('express-validator');
+const { registerAudit } = require('../helpers/AuditOperations');
 
 
 const login = async (request, response) => {
@@ -54,6 +55,7 @@ const registerNoAdmin = (request, response) => {
     request.body.esadministrador = false
     User.create(request.body).then(
         newEntitie => {
+            registerAudit(request.user, 'Usuarios', `Registró a ${newentitie.nombres} ${newEntitie.apellido_p} ${newEntitie.apellido_m}`)
             response.status(201).json(newEntitie)
         }
     )
@@ -76,6 +78,12 @@ const updateAdmin = (request, response) => {
             }
         })
         .then(numRowsUpdated => {
+            User.findByPk(id)
+                .then(entitie => {
+                    if (entitie) {
+                        registerAudit(request.user, 'Usuarios', `Actualizó a ${entitie.nombres} ${entitie.apellido_p} ${entitie.apellido_m}`)
+                    }
+                })
             response.status(200).send(`${numRowsUpdated} registro actualizado`);
         })
         .catch(err => {
@@ -144,18 +152,28 @@ const getUserById = (request, response) => {
 
 const destroyUser = (request, response) => {
     const id = request.params.id;
-    User.destroy(
-        {
-            where: {
-                id: id
+    User.findByPk(id)
+        .then(entitie => {
+            if (entitie) {
+                const name = `${entitie.nombres} ${entitie.apellido_p} ${entitie.apellido_m}`
+                User.destroy(
+                    {
+                        where: {
+                            id: id
+                        }
+                    }
+                ).then(numRowsDeleted => {
+                    registerAudit(request.user, 'Usuarios', `Eliminó a ${name}`)
+                    response.status(200).send(`${numRowsDeleted} registro eliminado`);
+                })
+                    .catch(err => {
+                        response.status(500).send(err);
+                    });
             }
-        }
-    ).then(numRowsDeleted => {
-        response.status(200).send(`${numRowsDeleted} registro eliminado`);
-    })
-        .catch(err => {
-            response.status(500).send(err);
-        });
+            else {
+                response.status(404).send('Entity not found')
+            }
+        })
 }
 
 const getUserByToken = (request, response) => {
